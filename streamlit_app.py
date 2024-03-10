@@ -1,40 +1,50 @@
-import altair as alt
-import numpy as np
-import pandas as pd
+# prompt: display the above cell
+
+%%writefile app.py
+
 import streamlit as st
+import joblib
+import numpy as np
 
-"""
-# Welcome to Streamlit!
+# Define the ModelLoad_predict function
+def ModelLoad_predict(final_df):
+    """
+    This Function Loads the pretrained model and performs ECG classification
+    return the classification Type.
+    """
+    # Load the pretrained model from the pickle file
+    loaded_model = joblib.load('/content/Heart_Disease_Prediction_using_ECG (4).pkl')
+    
+    # Perform prediction using the loaded model
+    result = loaded_model.predict(final_df)
+    
+    # Translate prediction to human-readable format
+    if result[0] == 1:
+        return "Your ECG corresponds to Myocardial Infarction"
+    elif result[0] == 0:
+        return "Your ECG corresponds to Abnormal Heartbeat"
+    elif result[0] == 2:
+        return "Your ECG is Normal"
+    else:
+        return "Your ECG corresponds to History of Myocardial Infarction"
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+# Streamlit app
+def main():
+    st.title('ECG Classification App')
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+    # Input interface for ECG data
+    ecg_data = st.text_area('Enter ECG data (comma-separated)', '')
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
+    # Convert input data to numpy array
+    if ecg_data:
+        final_df = np.array([float(x) for x in ecg_data.split(',')]).reshape(1, -1)
+    else:
+        final_df = None
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
+    # Call the ModelLoad_predict function to get the prediction
+    if final_df is not None:
+        prediction = ModelLoad_predict(final_df)
+        st.write('Prediction:', prediction)
 
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
-
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
-
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+if __name__ == '__main__':
+    main()
