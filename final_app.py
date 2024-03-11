@@ -249,8 +249,8 @@ class ECG:
             else:
                 return "Your ECG corresponds to a History of Myocardial Infarction"
     
-        except Exception as e:
-            return f"Error loading or predicting with the model: {e}"
+        # except Exception as e:
+        #     return f"Error loading or predicting with the model: {e}"
 
     # def ModelLoad_predict(self, final_df):
     #     """
