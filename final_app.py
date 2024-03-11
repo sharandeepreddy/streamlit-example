@@ -226,25 +226,25 @@ class ECG:
     This Function Loads the pretrained model and performs ECG classification
     Returns the classification type.
     """
-        try:
-            # Load the model
-            loaded_model = joblib.load('model.pkl')
-            
-            # Make predictions
-            result = loaded_model.predict(final_df)
-            
-            # Map prediction to class label
-            if result[0] == 1:
-                return "Your ECG corresponds to Myocardial Infarction"
-            elif result[0] == 0:
-                return "Your ECG corresponds to Abnormal Heartbeat"
-            elif result[0] == 2:
-                return "Your ECG is Normal"
-            else:
-                return "Your ECG corresponds to a History of Myocardial Infarction"
+    try:
+        # Load the model
+        loaded_model = joblib.load('model.pkl')
         
-        except Exception as e:
-            return f"Error loading or predicting with the model: {e}"
+        # Make predictions
+        result = loaded_model.predict(final_df)
+        
+        # Map prediction to class label
+        if result[0] == 1:
+            return "Your ECG corresponds to Myocardial Infarction"
+        elif result[0] == 0:
+            return "Your ECG corresponds to Abnormal Heartbeat"
+        elif result[0] == 2:
+            return "Your ECG is Normal"
+        else:
+            return "Your ECG corresponds to a History of Myocardial Infarction"
+    
+    except Exception as e:
+        return f"Error loading or predicting with the model: {e}"
 
     # def ModelLoad_predict(self, final_df):
     #     """
