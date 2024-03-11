@@ -225,17 +225,17 @@ class ECG:
         
         # try:
         # # Load the model
-        #     loaded_model = joblib.load('model.pkl')
+            loaded_model = joblib.load('model.pkl')
         
         # # Make predictions
-        #     result = loaded_model.predict(final_df)
+            result = loaded_model.predict(final_df)
 
             # Load the model from the file
-        with open('model.pkl', 'rb') as f:
+        # with open('model.pkl', 'rb') as f:
             
-            loaded_model = pickle.load(f)
-            new_data = final_df 
-            result = loaded_model.predict(new_data)
+            # loaded_model = pickle.load(f)
+            # new_data = final_df 
+            # result = loaded_model.predict(new_data)
             
 
         
