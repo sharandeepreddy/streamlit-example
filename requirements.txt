@@ -1,3 +1,5 @@
+os
+sklearn.externals.joblib
 scikit-learn
 scikit-image
 unzip
