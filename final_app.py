@@ -221,7 +221,7 @@ class ECG:
         final_df = pd.DataFrame(result)
         return final_df
     def ModelLoad_predict(self, final_df):
-        loaded_model = joblib.load('model.pkl')
+        loaded_model = joblib.load('Heart_Disease_Prediction_using_ECG (4).pkl')
         result = loaded_model.predict(final_df)
         if result[0] == 1:
             return "Your ECG corresponds to Myocardial Infarction"
