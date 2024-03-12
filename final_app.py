@@ -49,10 +49,9 @@ class ECG:
         Lead_10 = image[900:1200, 646:1135]  # Lead aVF
         Lead_11 = image[900:1200, 1140:1625]  # Lead V3
         Lead_12 = image[900:1200, 1630:2125]  # Lead V6
-        Lead_13 = image[1250:1480, 150:2125]  # Long Lead
 
         # All Leads in a list
-        Leads = [Lead_1, Lead_2, Lead_3, Lead_4, Lead_5, Lead_6, Lead_7, Lead_8, Lead_9, Lead_10, Lead_11, Lead_12, Lead_13]
+        Leads = [Lead_1, Lead_2, Lead_3, Lead_4, Lead_5, Lead_6, Lead_7, Lead_8, Lead_9, Lead_10, Lead_11, Lead_12]
         fig, ax = plt.subplots(4, 3)
         fig.set_size_inches(10, 10)
         x_counter = 0
@@ -119,23 +118,23 @@ class ECG:
                 y_counter += 1
         fig2.savefig('Preprossed_Leads_1-12_figure.png')
 
-        # plotting lead 13
-        fig3, ax3 = plt.subplots()
-        fig3.set_size_inches(10, 10)
-        # converting to gray scale
-        grayscale = color.rgb2gray(Leads[-1])
-        # smoothing image
-        blurred_image = gaussian(grayscale, sigma=1)
-        # thresholding to distinguish foreground and background
-        # using otsu thresholding for getting threshold value
-        global_thresh = threshold_otsu(blurred_image)
-        print(global_thresh)
-        # creating binary image based on threshold
-        binary_global = blurred_image < global_thresh
-        ax3.imshow(binary_global, cmap='gray')
-        ax3.set_title("Leads 13")
-        ax3.axis('off')
-        fig3.savefig('Preprossed_Leads_13_figure.png')
+        # # plotting lead 13
+        # fig3, ax3 = plt.subplots()
+        # fig3.set_size_inches(10, 10)
+        # # converting to gray scale
+        # grayscale = color.rgb2gray(Leads[-1])
+        # # smoothing image
+        # blurred_image = gaussian(grayscale, sigma=1)
+        # # thresholding to distinguish foreground and background
+        # # using otsu thresholding for getting threshold value
+        # global_thresh = threshold_otsu(blurred_image)
+        # print(global_thresh)
+        # # creating binary image based on threshold
+        # binary_global = blurred_image < global_thresh
+        # ax3.imshow(binary_global, cmap='gray')
+        # ax3.set_title("Leads 13")
+        # ax3.axis('off')
+        # fig3.savefig('Preprossed_Leads_13_figure.png')
 
     def SignalExtraction_Scaling(self, Leads):
         """
@@ -220,8 +219,9 @@ class ECG:
         result = pca_loaded_model.transform(test_final)
         final_df = pd.DataFrame(result)
         return final_df
+        
     def ModelLoad_predict(self, final_df):
-        loaded_model = joblib.load('Heart_Disease_Prediction_using_ECG (4).pkl')
+        loaded_model = joblib.load('model.pkl')
         result = loaded_model.predict(final_df)
         if result[0] == 1:
             return "Your ECG corresponds to Myocardial Infarction"
