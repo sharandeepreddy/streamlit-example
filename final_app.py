@@ -191,30 +191,72 @@ class ECG:
 
         fig4.savefig('Contour_Leads_1-12_figure.png')
 
+    # def CombineConvert1Dsignal(self):
+    #     """
+    #     This function combines all 1D signals of 12 Leads into one FIle csv for model input.
+    #     returns the final dataframe
+    #     """
+    #     # first read the Lead1 1D signal
+    #     test_final = pd.read_csv('Scaled_1DLead_1.csv')
+    #     location = os.getcwd()
+    #     print(location)
+    #     # loop over all the 11 remaining leads and combine as one dataset using pandas concat
+    #     for files in natsorted(os.listdir(location)):
+    #         if files.endswith(".csv"):
+    #             if files != 'Scaled_1DLead_1.csv':
+    #                 df = pd.read_csv('{}'.format(files))
+    #                 test_final = pd.concat([test_final, df], axis=1, ignore_index=True)
+
+    #     return test_final
+
+    # def DimensionalReduciton(self, test_final):
+    #     """
+    #     This function reduces the dimensinality of the 1D signal using PCA
+    #     returns the final dataframe
+    #     """
+    #     # first load the trained pca
+    #     pca_loaded_model = joblib.load('PCA_ECG (1).pkl')
+    #     result = pca_loaded_model.transform(test_final)
+    #     final_df = pd.DataFrame(result)
+    #     return final_df
+        
+    # def ModelLoad_predict(self, final_df):
+    #     loaded_model = joblib.load('model.pkl')
+    #     result = loaded_model.predict(final_df)
+    #     if result[0] == 1:
+    #         return "Your ECG corresponds to Myocardial Infarction"
+    #     elif result[0] == 0:
+    #         return "Your ECG corresponds to Abnormal Heartbeat"
+    #     elif result[0] == 2:
+    #         return "Your ECG is Normal"
+    #     else:
+    #         return "Your ECG corresponds to a History of Myocardial Infarction"
+
     def CombineConvert1Dsignal(self):
         """
         This function combines all 1D signals of 12 Leads into one FIle csv for model input.
         returns the final dataframe
         """
-        # first read the Lead1 1D signal
+        # First read the Lead1 1D signal
         test_final = pd.read_csv('Scaled_1DLead_1.csv')
         location = os.getcwd()
         print(location)
-        # loop over all the 11 remaining leads and combine as one dataset using pandas concat
+        # Loop over all the 11 remaining leads and combine as one dataset using pandas concat
         for files in natsorted(os.listdir(location)):
             if files.endswith(".csv"):
                 if files != 'Scaled_1DLead_1.csv':
                     df = pd.read_csv('{}'.format(files))
-                    test_final = pd.concat([test_final, df], axis=1, ignore_index=True)
+                    df.reset_index(drop=True, inplace=True)  # Reset index
+                    test_final = pd.concat([test_final, df], axis=1)
 
         return test_final
 
-    def DimensionalReduciton(self, test_final):
+    def DimensionalReduction(self, test_final):
         """
-        This function reduces the dimensinality of the 1D signal using PCA
+        This function reduces the dimensionality of the 1D signal using PCA
         returns the final dataframe
         """
-        # first load the trained pca
+        # First load the trained pca
         pca_loaded_model = joblib.load('PCA_ECG (1).pkl')
         result = pca_loaded_model.transform(test_final)
         final_df = pd.DataFrame(result)
@@ -231,6 +273,9 @@ class ECG:
             return "Your ECG is Normal"
         else:
             return "Your ECG corresponds to a History of Myocardial Infarction"
+
+
+
 
        
 
