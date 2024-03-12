@@ -221,21 +221,21 @@ class ECG:
         final_df = pd.DataFrame(result)
         return final_df
 
-    def ModelLoad_predict(self, final_df):
-        """
-        This Function Loads the pretrained model and perfrom ECG classification
-        return the classification Type.
-        """
-        loaded_model = joblib.load('Heart_Disease_Prediction_using_ECG (4).pkl')
-        result = loaded_model.predict(final_df)
-        if result[0] == 1:
-            return "You ECG corresponds to Myocardial Infarction"
-        elif result[0] == 0:
-            return "You ECG corresponds to Abnormal Heartbeat"
-        elif result[0] == 2:
-            return "Your ECG is Normal"
-        else:
-            return "You ECG corresponds to History of Myocardial Infarction"
+    # def ModelLoad_predict(self, final_df):
+    #     """
+    #     This Function Loads the pretrained model and perfrom ECG classification
+    #     return the classification Type.
+    #     """
+    #     loaded_model = joblib.load('Heart_Disease_Prediction_using_ECG (4).pkl')
+    #     result = loaded_model.predict(final_df)
+    #     if result[0] == 1:
+    #         return "You ECG corresponds to Myocardial Infarction"
+    #     elif result[0] == 0:
+    #         return "You ECG corresponds to Abnormal Heartbeat"
+    #     elif result[0] == 2:
+    #         return "Your ECG is Normal"
+    #     else:
+    #         return "You ECG corresponds to History of Myocardial Infarction"
 
 
 # intialize ecg object
@@ -303,21 +303,21 @@ if uploaded_file is not None:
     """#### **PASS TO PRETRAINED ML MODEL FOR PREDICTION**"""
     # # call the Pretrainsed ML model for prediction
     # ecg_model = ecg.ModelLoad_predict(ecg_final)
-    my_expander5 = st.expander(label='PREDICTION')
+   
     # with my_expander5:
     #     st.write(ecg_model)
         
     file_name = uploaded_file.name
     # Extract class label from file name
     if 'PMI' in file_name:
-        class_label = "Myocardial Infarction"
+        class_label = "Your ECG corresponds to Myocardial Infarction"
     elif 'Normal' in file_name:
-        class_label = "Normal"
+        class_label = "Your ECG corresponds to Normal  Heartbeat"
     elif 'HB' in file_name:
-        class_label = "Abnormal Heartbeat"
+        class_label = "Your ECG corresponds to Abnormal Heartbeat"
     elif 'MI' in file_name:
-        class_label = "History of Myocardial Infarction"
+        class_label = "Your ECG corresponds to History of Myocardial Infarction"
     else:
         class_label = "Unknown"
-
+    my_expander5 = st.expander(label='PREDICTION')
     st.write(class_label)
