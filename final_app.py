@@ -306,3 +306,18 @@ if uploaded_file is not None:
     my_expander5 = st.expander(label='PREDICTION')
     with my_expander5:
         st.write(ecg_model)
+        
+    file_name = uploaded_file.name
+    # Extract class label from file name
+    if 'PMI' in file_name:
+        class_label = "Myocardial Infarction"
+    elif 'Normal' in file_name:
+        class_label = "Normal"
+    elif 'HB' in file_name:
+        class_label = "Abnormal Heartbeat"
+    elif 'MI' in file_name:
+        class_label = "History of Myocardial Infarction"
+    else:
+        class_label = "Unknown"
+
+    st.write("Class label extracted from file name:", class_label)
