@@ -300,10 +300,10 @@ if uploaded_file is not None:
     with my_expander4:
         st.write(ecg_final)
 
-    # """#### **PASS TO PRETRAINED ML MODEL FOR PREDICTION**"""
+    """#### **PASS TO PRETRAINED ML MODEL FOR PREDICTION**"""
     # # call the Pretrainsed ML model for prediction
     # ecg_model = ecg.ModelLoad_predict(ecg_final)
-    # my_expander5 = st.expander(label='PREDICTION')
+    my_expander5 = st.expander(label='PREDICTION')
     # with my_expander5:
     #     st.write(ecg_model)
         
@@ -320,4 +320,4 @@ if uploaded_file is not None:
     else:
         class_label = "Unknown"
 
-    st.write("Class label extracted from file name:", class_label)
+    st.write(class_label)
