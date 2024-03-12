@@ -210,16 +210,32 @@ class ECG:
 
         return test_final
 
-    def DimensionalReduciton(self, test_final):
-        """
-        This function reduces the dimensinality of the 1D signal using PCA
-        returns the final dataframe
-        """
-        # first load the trained pca
+    # def DimensionalReduciton(self, test_final):
+    #     """
+    #     This function reduces the dimensinality of the 1D signal using PCA
+    #     returns the final dataframe
+    #     """
+    #     # first load the trained pca
+    #     pca_loaded_model = joblib.load('PCA_ECG (1).pkl')
+    #     result = pca_loaded_model.transform(test_final)
+    #     final_df = pd.DataFrame(result)
+    #     return final_df
+    def DimensionalReduction(self, test_final):
+        
+        # Load the trained PCA model
         pca_loaded_model = joblib.load('PCA_ECG (1).pkl')
-        result = pca_loaded_model.transform(test_final)
+        
+        # Reshape the input to ensure it's a 2D array
+        test_final_2d = test_final.reshape(1, -1)
+        
+        # Transform the data using the loaded PCA model
+        result = pca_loaded_model.transform(test_final_2d)
+        
+        # Convert the result to a DataFrame
         final_df = pd.DataFrame(result)
+        
         return final_df
+
 
     def ModelLoad_predict(self, final_df):
         
