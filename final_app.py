@@ -210,82 +210,29 @@ class ECG:
 
         return test_final
 
-    # def DimensionalReduciton(self, test_final):
-    #     """
-    #     This function reduces the dimensinality of the 1D signal using PCA
-    #     returns the final dataframe
-    #     """
-    #     # first load the trained pca
-    #     pca_loaded_model = joblib.load('PCA_ECG (1).pkl')
-    #     result = pca_loaded_model.transform(test_final)
-    #     final_df = pd.DataFrame(result)
-    #     return final_df
-    def DimensionalReduction(self, test_final):
-        
-        # Load the trained PCA model
+    def DimensionalReduciton(self, test_final):
+        """
+        This function reduces the dimensinality of the 1D signal using PCA
+        returns the final dataframe
+        """
+        # first load the trained pca
         pca_loaded_model = joblib.load('PCA_ECG (1).pkl')
-        
-        # Reshape the input to ensure it's a 2D array
-        test_final_2d = test_final.reshape(1, -1)
-        
-        # Transform the data using the loaded PCA model
-        result = pca_loaded_model.transform(test_final_2d)
-        
-        # Convert the result to a DataFrame
+        result = pca_loaded_model.transform(test_final)
         final_df = pd.DataFrame(result)
-        
         return final_df
-
-
     def ModelLoad_predict(self, final_df):
-        
-        # try:
-        # # Load the model
-            loaded_model = joblib.load('model.pkl')
-        
-        # # Make predictions
-            result = loaded_model.predict(final_df)
+        loaded_model = joblib.load('model.pkl')
+        result = loaded_model.predict(final_df)
+        if result[0] == 1:
+            return "Your ECG corresponds to Myocardial Infarction"
+        elif result[0] == 0:
+            return "Your ECG corresponds to Abnormal Heartbeat"
+        elif result[0] == 2:
+            return "Your ECG is Normal"
+        else:
+            return "Your ECG corresponds to a History of Myocardial Infarction"
 
-            # Load the model from the file
-        # with open('model.pkl', 'rb') as f:
-            
-            # loaded_model = pickle.load(f)
-            # new_data = final_df 
-            # result = loaded_model.predict(new_data)
-            
-
-        
-        # Map prediction to class label
-            if result[0] == 1:
-                return "Your ECG corresponds to Myocardial Infarction"
-            elif result[0] == 0:
-                return "Your ECG corresponds to Abnormal Heartbeat"
-            elif result[0] == 2:
-                return "Your ECG is Normal"
-            else:
-                return "Your ECG corresponds to a History of Myocardial Infarction"
-    
-        # except Exception as e:
-        #     return f"Error loading or predicting with the model: {e}"
-
-    # def ModelLoad_predict(self, final_df):
-    #     """
-    #     This Function Loads the pretrained model and perfrom ECG classification
-    #     return the classification Type.
-    #     """
-    #     loaded_model = joblib.load('model.pkl')
-    #     result = loaded_model.predict(final_df)
-    #     if result[0] == 1:
-    #         return "You ECG corresponds to Myocardial Infarction"
-    #     elif result[0] == 0:
-    #         return "You ECG corresponds to Abnormal Heartbeat"
-    #     elif result[0] == 2:
-    #         return "Your ECG is Normal"
-    #     else:
-    #         return "You ECG corresponds to History of Myocardial Infarction"
-
-
-
+       
 
 # intialize ecg object
 ecg = ECG()
